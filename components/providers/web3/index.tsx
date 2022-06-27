@@ -1,7 +1,12 @@
 import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { createContext, FunctionComponent } from "react";
-import { createDefaultState, loadContract, Web3State } from "./utils";
+import {
+  createDefaultState,
+  createWeb3State,
+  loadContract,
+  Web3State,
+} from "./utils";
 import { ethers } from "ethers";
 
 const Web3Context = createContext<Web3State>(createDefaultState());
@@ -16,12 +21,14 @@ const Web3Provider: FunctionComponent = ({ children }) => {
       );
       const contract = await loadContract("NftMarket", provider);
 
-      setWeb3Api({
-        ethereum: window.ethereum,
-        provider,
-        contract: contract,
-        isLoading: true,
-      });
+      setWeb3Api(
+        createWeb3State({
+          ethereum: window.ethereum,
+          provider,
+          contract,
+          isLoading: false,
+        })
+      );
     }
     initWeb3();
   }, []);
@@ -33,6 +40,11 @@ const Web3Provider: FunctionComponent = ({ children }) => {
 
 export function useWeb3() {
   return useContext(Web3Context);
+}
+
+export function useHooks() {
+  const { hooks } = useWeb3();
+  return hooks;
 }
 
 export default Web3Provider;
