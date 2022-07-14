@@ -9,6 +9,7 @@ import {
 } from "./utils";
 import { ethers } from "ethers";
 import { MetaMaskInpageProvider, setGlobalProvider } from "@metamask/providers";
+import { NftMarketContract } from "@_types/nftMarketContract";
 
 const pageReload = () => {
   window.location.reload();
@@ -22,7 +23,6 @@ const handleAccount = (ethereum: MetaMaskInpageProvider) => async () => {
 };
 
 const setGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
-  debugger;
   ethereum.on("chainChanged", pageReload);
   ethereum.on("accountsChanged", handleAccount(ethereum));
 };
@@ -50,7 +50,7 @@ const Web3Provider: FunctionComponent = ({ children }) => {
           createWeb3State({
             ethereum: window.ethereum,
             provider,
-            contract,
+            contract: contract as unknown as NftMarketContract,
             isLoading: false,
           })
         );

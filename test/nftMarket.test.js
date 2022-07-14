@@ -151,26 +151,24 @@ contract("NftMarket", (accounts) => {
     });
   });
 
-  describe("Burn Token", () => {
-    const tokenURI = "https://test-json3.com";
+  describe("List an Nft", () => {
     before(async () => {
-      await _contract.mintToken(tokenURI, _nftPrice, {
-        from: accounts[2],
+      await _contract.placeNftOnSale(1, _nftPrice, {
+        from: accounts[1],
         value: _listingPrice,
       });
     });
 
-    it("account[2] should have one owned NFT", async () => {
-      const ownedNfts = await _contract.getOwnedNfts({ from: accounts[2] });
-
-      assert.equal(ownedNfts[0].tokenId, 3, "Nft has a wrong id");
+    it("show have tow listed items", async () => {
+      const listedNfts = await _contract.getAllNftsOnSale();
+      assert.equal(listedNfts.length, 2, "Invalid length of Nfts");
     });
 
-    it("account[2] should own 0 NFTs", async () => {
-      await _contract.burnToken(3, { from: accounts[2] });
-      const ownedNfts = await _contract.getOwnedNfts({ from: accounts[2] });
+    it("should set new listing price", async () => {
+      await _contract.setListingPrice(_listingPrice, { from: accounts[0] });
+      const listingPrice = await _contract.listingPrice();
 
-      assert.equal(ownedNfts.length, 0, "Invalid length of tokens");
+      assert.equal(listingPrice.toString(), _listingPrice, "Invalid Price");
     });
   });
 });
