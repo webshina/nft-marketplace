@@ -10,7 +10,7 @@ export type Web3Dependencies = {
     isLoading: boolean;
 }
 
-export type CryptHookFactory<D = any, R = any, P = any> = {
+export type CryptoHookFactory<D = any, R = any, P = any> = {
     (d: Partial<Web3Dependencies>): CryptHandlerHook<D, R, P>
 }
 
