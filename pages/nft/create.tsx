@@ -1,16 +1,14 @@
-/* eslint-disable @next/next/no-img-element */
-
 import type { NextPage } from "next";
 import { ChangeEvent, useState } from "react";
-import { BaseLayout } from "../../components/ui";
+import { BaseLayout } from "@ui";
 import { Switch } from "@headlessui/react";
 import Link from "next/link";
 import { NftMeta } from "@_types/nft";
 import axios from "axios";
-
-const ATTRIBUTES = ["health", "attack", "speed"];
+import { useWeb3 } from "@providers/web3";
 
 const NftCreate: NextPage = () => {
+  const { ethereum } = useWeb3();
   const [nftURI, setNftURI] = useState("");
   const [hasURI, setHasURI] = useState(false);
   const [nftMeta, setNftMeta] = useState<NftMeta>({
@@ -28,7 +26,6 @@ const NftCreate: NextPage = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    console.log({ ...nftMeta, [name]: value });
     setNftMeta({ ...nftMeta, [name]: value });
   };
 
@@ -47,10 +44,30 @@ const NftCreate: NextPage = () => {
 
   const createNft = async () => {
     try {
-      console.log("a");
       const messageToSign = await axios.get("/api/verify");
+      console.log(messageToSign);
+
+      const accounts = (await ethereum?.request({
+        method: "eth_requestAccounts",
+      })) as string[];
+      const account = accounts[0];
+
+      const signedData = await ethereum?.request({
+        method: "personal_sign",
+        params: [JSON.stringify(messageToSign), account, messageToSign.data.id],
+      });
+      console.log(signedData);
+
+      debugger;
+      await axios.post("/api/verify", {
+        address: account,
+        signature: signedData,
+        nft: nftMeta,
+      });
+      debugger;
+
+      console.log(signedData);
     } catch (e: any) {
-      console.log("e");
       console.error(e.message);
     }
   };
@@ -227,7 +244,7 @@ const NftCreate: NextPage = () => {
                     ) : (
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
-                          Cover photo
+                          Image
                         </label>
                         <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
                           <div className="space-y-1 text-center">
@@ -280,7 +297,7 @@ const NftCreate: NextPage = () => {
                             {attribute.trait_type}
                           </label>
                           <input
-                            onChange={() => {}}
+                            onChange={handleAttributeChange}
                             value={attribute.value}
                             type="text"
                             name={attribute.trait_type}
