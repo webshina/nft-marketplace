@@ -3,6 +3,8 @@ import { setupHooks, Web3Hooks } from "@hooks/web3/setupHooks";
 import { MetaMaskInpageProvider } from "@metamask/providers";
 import { Web3Dependencies } from "@_types/hooks";
 import { Contract, ethers, providers } from "ethers";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-iron-session";
 
 declare global {
   interface Window {

@@ -1,4 +1,4 @@
-import { CryptHookFactory } from "@_types/hooks";
+import { CryptoHookFactory } from "@_types/hooks";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -8,7 +8,7 @@ type UseAccountResponse = {
     isInstalled: boolean;
 }
 
-type AccountHookFactory = CryptHookFactory<string, UseAccountResponse>;
+type AccountHookFactory = CryptoHookFactory<string, UseAccountResponse>;
 
 export type UseAccountHook = ReturnType<AccountHookFactory>
 

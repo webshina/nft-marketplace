@@ -2,6 +2,7 @@ import { CryptoHookFactory } from "@_types/hooks";
 import { Nft } from "@_types/nft";
 import { ethers } from "ethers";
 import { useCallback } from "react";
+import { toast } from "react-toastify";
 import useSWR from "swr";
 
 type UseListedNftsResponse = {
@@ -48,7 +49,11 @@ export const hookFactory: ListedNftsHookFactory = ({contract}) => () => {
         }
       )
 
-      await result?.wait();
+      const res = await toast.promise(result!.wait(), {
+        pending: "Processing transactions",
+        success: "Nft is yours! Go to Profile page",
+        error: "Processing error",
+      });
 
       alert("You have bought Nft. See profile page.")
     } catch (e: any) {

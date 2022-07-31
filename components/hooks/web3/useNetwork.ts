@@ -1,4 +1,4 @@
-import { CryptHookFactory } from "@_types/hooks";
+import { CryptoHookFactory } from "@_types/hooks";
 import { useEffect } from "react";
 import useSWR from "swr";
 
@@ -19,9 +19,10 @@ type useNetworkResponse = {
     isLoading: boolean;
     isSupported: boolean;
     targetNetwork: string;
+    isConnectedToNetwork: boolean;
 }
 
-type NetworkHookFactory = CryptHookFactory<string, useNetworkResponse>;
+type NetworkHookFactory = CryptoHookFactory<string, useNetworkResponse>;
 
 export type UseNetworkHook = ReturnType<NetworkHookFactory>
 
@@ -43,12 +44,15 @@ export const hookFactory: NetworkHookFactory = ({provider, isLoading}) => () => 
         }
     )
 
+    const isSupported = data == targetNetwork;
+
     return {
         ...swr,
         data,
         isValidating,
         targetNetwork,
-        isSupported: data === targetNetwork,
+        isSupported,
+        isConnectedToNetwork: !isLoading && isSupported,
         isLoading: isLoading as boolean,
     };
 }
