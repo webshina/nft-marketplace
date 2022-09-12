@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Menu } from "@headlessui/react";
-import Link from "next/link";
-import { FunctionComponent } from "react";
+import { Menu } from '@headlessui/react';
+import Link from 'next/link';
+import { FunctionComponent } from 'react';
 
 type WalletbarProps = {
   isLoading: boolean;
@@ -12,7 +12,7 @@ type WalletbarProps = {
 };
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const Walletbar: FunctionComponent<WalletbarProps> = ({
@@ -27,7 +27,7 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
         <button
           onClick={() => {}}
           type="button"
-          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         >
           Loading ...
         </button>
@@ -67,8 +67,8 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
               <Link href="/profile">
                 <a
                   className={classNames(
-                    active ? "bg-gray-100" : "",
-                    "block px-4 py-2 text-sm text-gray-700"
+                    active ? 'bg-gray-100' : '',
+                    'block px-4 py-2 text-sm text-gray-700'
                   )}
                 >
                   Profile
@@ -89,7 +89,7 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
             connect();
           }}
           type="button"
-          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         >
           Connect Wallet
         </button>
@@ -100,10 +100,10 @@ const Walletbar: FunctionComponent<WalletbarProps> = ({
       <div>
         <button
           onClick={() => {
-            window.open("https://metamask.io", "_ blank");
+            window.open('https://metamask.io', '_ blank');
           }}
           type="button"
-          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
         >
           No Wallet
         </button>

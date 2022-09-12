@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 
-import type { NextPage } from "next";
-import { BaseLayout } from "@ui";
+import { BaseLayout } from '@ui';
+import type { NextPage } from 'next';
 
-import nfts from "../content/meta.json";
-import { Nft, NftMeta } from "@_types/nft";
-import { useOwnedNfts } from "@hooks/web3";
-import { useEffect, useState } from "react";
+import { useOwnedNfts } from '@hooks/web3';
+import { Nft } from '@_types/nft';
+import { useEffect, useState } from 'react';
 
-const tabs = [{ name: "Your Collection", href: "#", current: true }];
+const tabs = [{ name: 'Collection', href: '#', current: true }];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
+  return classes.filter(Boolean).join(' ');
 }
 
 const Profile: NextPage = () => {
@@ -34,7 +33,7 @@ const Profile: NextPage = () => {
             <main className="flex-1 overflow-y-auto">
               <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex">
-                  <h1 className="flex-1 text-2xl font-bold text-gray-900">
+                  <h1 className="flex-1 text-2xl font-bold text-white">
                     Your NFTs
                   </h1>
                 </div>
@@ -49,12 +48,12 @@ const Profile: NextPage = () => {
                           <a
                             key={tab.name}
                             href={tab.href}
-                            aria-current={tab.current ? "page" : undefined}
+                            aria-current={tab.current ? 'page' : undefined}
                             className={classNames(
                               tab.current
-                                ? "border-indigo-500 text-indigo-600"
-                                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
-                              "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                                ? 'border-pink-500 text-pink-600'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
                             )}
                           >
                             {tab.name}
@@ -84,9 +83,9 @@ const Profile: NextPage = () => {
                         <div
                           className={classNames(
                             nft.tokenId === activeNft?.tokenId
-                              ? "ring-2 ring-offset-2 ring-indigo-500"
-                              : "focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-indigo-500",
-                            "group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden"
+                              ? 'ring-2 ring-offset-2 ring-pink-500'
+                              : 'focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 focus-within:ring-pink-500',
+                            'group block w-full aspect-w-10 aspect-h-7 rounded-lg bg-gray-100 overflow-hidden'
                           )}
                         >
                           <img
@@ -94,9 +93,9 @@ const Profile: NextPage = () => {
                             alt=""
                             className={classNames(
                               nft.tokenId === activeNft?.tokenId
-                                ? ""
-                                : "group-hover:opacity-75",
-                              "object-cover pointer-events-none"
+                                ? ''
+                                : 'group-hover:opacity-75',
+                              'object-cover pointer-events-none'
                             )}
                           />
                           <button
@@ -108,7 +107,7 @@ const Profile: NextPage = () => {
                             </span>
                           </button>
                         </div>
-                        <p className="mt-2 block text-sm font-medium text-gray-900 truncate pointer-events-none">
+                        <p className="mt-2 block text-sm font-medium text-white truncate pointer-events-none">
                           {nft.meta.name}
                         </p>
                       </li>
@@ -162,9 +161,9 @@ const Profile: NextPage = () => {
                   <div className="flex">
                     <button
                       type="button"
-                      className="flex-1 bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="flex-1 bg-pink-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     >
-                      Download Image
+                      画像ダウンロード
                     </button>
                     <button
                       disabled={activeNft.isListed}
@@ -172,9 +171,9 @@ const Profile: NextPage = () => {
                         nfts.listNft(activeNft.tokenId, activeNft.price);
                       }}
                       type="button"
-                      className="disabled:text-gray-400 disabled:cursor-not-allowed flex-1 ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="disabled:text-gray-400 disabled:cursor-not-allowed flex-1 ml-3 bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     >
-                      {activeNft.isListed ? "Nft is listed" : "List Nft"}
+                      {activeNft.isListed ? 'Now on sale' : 'Sale'}
                     </button>
                   </div>
                 </div>

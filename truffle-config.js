@@ -1,14 +1,14 @@
-const HDWalletProveder = require("@truffle/hdwallet-provider");
-const keys = require("./keys.json");
+const HDWalletProveder = require('@truffle/hdwallet-provider');
+const keys = require('./keys.json');
 
 module.exports = {
-  contracts_build_directory: "./public/contracts",
+  contracts_build_directory: './public/contracts',
 
   networks: {
     development: {
-      host: "127.0.0.1",
+      host: '127.0.0.1',
       port: 7545,
-      network_id: "*",
+      network_id: '*',
     },
     ropsten: {
       provider: () =>
@@ -19,11 +19,20 @@ module.exports = {
       confirmations: 2,
       timeoutBlocks: 200,
     },
+    rinkeby: {
+      provider: () =>
+        new HDWalletProveder(keys.PRIVATE_KEY, keys.INFURA_RINKEBY_URL),
+      network_id: 4,
+      gas: 5500000,
+      gasPrice: 20000000000,
+      confirmations: 2,
+      timeoutBlocks: 200,
+    },
   },
 
   compilers: {
     solc: {
-      version: "0.8.15",
+      version: '0.8.15',
     },
   },
 };

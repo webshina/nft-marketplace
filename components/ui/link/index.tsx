@@ -1,6 +1,6 @@
-import Link from "next/link";
-import React, { FunctionComponent, ReactElement } from "react";
-import { useRouter } from "next/router";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { FunctionComponent, ReactElement } from 'react';
 
 type LinkProps = {
   href: string;
@@ -10,11 +10,11 @@ type LinkProps = {
 
 const ActiveLink: FunctionComponent<LinkProps> = ({ children, ...props }) => {
   const { pathname } = useRouter();
-  let className = children!.props.className || "";
+  let className = children!.props.className || '';
   let _defaultClass = `${className} text-gray-100`;
 
   if (pathname === props.href) {
-    className = `${className} text-indigo-400 ${props.activeClass}`;
+    className = `${className} text-pink-400 ${props.activeClass}`;
   } else {
     className = _defaultClass;
   }

@@ -1,8 +1,6 @@
-import exp from "constants";
-import { FunctionComponent } from "react";
-import { Nft } from "@_types/nft";
-import NftItem from "../item";
-import { useListedNfts } from "@hooks/web3";
+import { useListedNfts } from '@hooks/web3';
+import { FunctionComponent } from 'react';
+import NftItem from '../item';
 
 const NftList: FunctionComponent = () => {
   const { nfts } = useListedNfts();

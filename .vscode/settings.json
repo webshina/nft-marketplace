@@ -1,10 +1,8 @@
 {
-    "cSpell.words": [
-        "Inpage"
-    ],
-    "editor.tabSize": 2,
-    "editor.insertSpaces": true,
-    "editor.detectIndentation": true,
-    "editor.defaultFormatter": "SimonSiefke.prettier-vscode",
-    "editor.formatOnSave": true
+  "cSpell.words": ["Inpage"],
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "editor.defaultFormatter": "SimonSiefke.prettier-vscode",
+  "editor.formatOnSave": true
 }

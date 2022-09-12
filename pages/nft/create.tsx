@@ -1,50 +1,50 @@
 /* eslint-disable @next/next/no-img-element */
 
-import type { NextPage } from "next";
-import { ChangeEvent, useState } from "react";
-import { BaseLayout } from "@ui";
-import { Switch } from "@headlessui/react";
-import Link from "next/link";
-import { NftMeta, PinataRes } from "@_types/nft";
-import axios from "axios";
-import { useWeb3 } from "@providers/web3";
-import { Contract, ethers } from "ethers";
-import { toast } from "react-toastify";
-import { useNetwork } from "@hooks/web3";
-import { ExclamationIcon } from "@heroicons/react/outline";
+import { Switch } from '@headlessui/react';
+import { ExclamationIcon } from '@heroicons/react/outline';
+import { useNetwork } from '@hooks/web3';
+import { useWeb3 } from '@providers/web3';
+import { BaseLayout } from '@ui';
+import { NftMeta, PinataRes } from '@_types/nft';
+import axios from 'axios';
+import { ethers } from 'ethers';
+import type { NextPage } from 'next';
+import Link from 'next/link';
+import { ChangeEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 
-const ALLOWED_FIELDS = ["name", "description", "image", "attributes"];
+const ALLOWED_FIELDS = ['name', 'description', 'image', 'attributes'];
 
 const NftCreate: NextPage = () => {
   const { ethereum, contract } = useWeb3();
   const { network } = useNetwork();
-  const [nftURI, setNftURI] = useState("");
-  const [price, setPrice] = useState("");
+  const [nftURI, setNftURI] = useState('');
+  const [price, setPrice] = useState('');
   const [hasURI, setHasURI] = useState(false);
   const [nftMeta, setNftMeta] = useState<NftMeta>({
-    name: "",
-    description: "",
-    image: "",
+    name: '',
+    description: '',
+    image: '',
     attributes: [
-      { trait_type: "attack", value: "0" },
-      { trait_type: "health", value: "0" },
-      { trait_type: "speed", value: "0" },
+      { trait_type: 'No.', value: '0' },
+      { trait_type: 'Level', value: '0' },
+      { trait_type: 'Efficiency', value: '0' },
     ],
   });
 
   const getSignedData = async () => {
     // コントラクトアドレスとランダムIDを格納したメッセージを取得
-    const messageToSign = await axios.get("/api/verify");
+    const messageToSign = await axios.get('/api/verify');
 
     // アカウントを取得
     const accounts = (await ethereum?.request({
-      method: "eth_requestAccounts",
+      method: 'eth_requestAccounts',
     })) as string[];
     const account = accounts[0];
 
     // ユーザーの署名を作成
     const signedData = await ethereum?.request({
-      method: "personal_sign",
+      method: 'personal_sign',
       params: [
         JSON.stringify(messageToSign.data),
         account,
@@ -57,7 +57,7 @@ const NftCreate: NextPage = () => {
 
   const handleImage = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
-      console.error("Select a file");
+      console.error('Select a file');
       return;
     }
 
@@ -67,18 +67,18 @@ const NftCreate: NextPage = () => {
 
     try {
       const { signedData, account } = await getSignedData();
-      const promise = axios.post("/api/verify-image", {
+      const promise = axios.post('/api/verify-image', {
         address: account,
         signature: signedData,
         bytes,
         contentType: file.type,
-        fileName: file.name.replace(/\.[^/.]+$/, ""),
+        fileName: file.name.replace(/\.[^/.]+$/, ''),
       });
 
       const res = await toast.promise(promise, {
-        pending: "Uploading image",
-        success: "Image uploaded",
-        error: "Image upload error",
+        pending: 'Uploading image',
+        success: 'Image uploaded',
+        error: 'Image upload error',
       });
 
       const data = res.data as PinataRes;
@@ -116,16 +116,16 @@ const NftCreate: NextPage = () => {
     try {
       const { signedData, account } = await getSignedData();
 
-      const promise = axios.post("/api/verify", {
+      const promise = axios.post('/api/verify', {
         address: account,
         signature: signedData,
         nft: nftMeta,
       });
 
       const res = await toast.promise(promise, {
-        pending: "Uploading image",
-        success: "Metadata uploaded",
-        error: "Metadata upload error",
+        pending: 'Uploading image',
+        success: 'Metadata uploaded',
+        error: 'Metadata upload error',
       });
 
       const data = res.data as PinataRes;
@@ -144,7 +144,7 @@ const NftCreate: NextPage = () => {
 
       Object.keys(content).forEach((key) => {
         if (!ALLOWED_FIELDS.includes(key)) {
-          throw new Error("Invalid Json structure");
+          throw new Error('Invalid Json structure');
         }
       });
 
@@ -157,9 +157,9 @@ const NftCreate: NextPage = () => {
       );
 
       await toast.promise(tx!.wait(), {
-        pending: "Uploading image",
-        success: "Metadata uploaded",
-        error: "Metadata upload error",
+        pending: 'Uploading image',
+        success: 'Metadata uploaded',
+        error: 'Metadata upload error',
       });
     } catch (e: any) {
       throw new Error(e.message);
@@ -184,7 +184,7 @@ const NftCreate: NextPage = () => {
               <div className="mt-2 text-sm text-yellow-700">
                 <p>
                   {network.isLoading
-                    ? "Loading..."
+                    ? 'Loading...'
                     : `Connect to ${network.targetNetwork}`}
                 </p>
               </div>
@@ -201,19 +201,19 @@ const NftCreate: NextPage = () => {
         <div className="py-4">
           {!nftURI && (
             <div className="flex">
-              <div className="mr-2 font-bold underline">
-                Do you have meta data already?
+              <div className="mr-2 font-bold underline text-white">
+                データあり
               </div>
               <Switch
                 checked={hasURI}
                 onChange={() => setHasURI(!hasURI)}
-                className={`${hasURI ? "bg-indigo-900" : "bg-indigo-700"}
+                className={`${hasURI ? 'bg-pink-900' : 'bg-pink-700'}
                   relative inline-flex flex-shrink-0 h-[28px] w-[64px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
               >
                 <span className="sr-only">Use setting</span>
                 <span
                   aria-hidden="true"
-                  className={`${hasURI ? "translate-x-9" : "translate-x-0"}
+                  className={`${hasURI ? 'translate-x-9' : 'translate-x-0'}
                     pointer-events-none inline-block h-[24px] w-[24px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200`}
                 />
               </Switch>
@@ -224,13 +224,9 @@ const NftCreate: NextPage = () => {
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <div className="px-4 sm:px-0">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
-                  List NFT
+                <h3 className="text-lg font-medium leading-6 text-white">
+                  Sale NFT
                 </h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  This information will be displayed publicly so be careful what
-                  you share.
-                </p>
               </div>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
@@ -241,7 +237,7 @@ const NftCreate: NextPage = () => {
                       <div>
                         <label
                           htmlFor="uri"
-                          className="block text-sm font-medium text-gray-700"
+                          className="block text-sm font-medium text-gray-900"
                         >
                           URI Link
                         </label>
@@ -251,7 +247,7 @@ const NftCreate: NextPage = () => {
                             type="text"
                             name="uri"
                             id="uri"
-                            className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                            className="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                             placeholder="http://link.com/data.json"
                           />
                         </div>
@@ -259,11 +255,11 @@ const NftCreate: NextPage = () => {
                     </div>
                   )}
                   {nftURI && (
-                    <div className="mb-4 p-4">
+                    <div className=" p-4 bg-white">
                       <div className="font-bold">Your metadata: </div>
                       <div>
                         <Link href={nftURI}>
-                          <a className="underline text-indigo-600">{nftURI}</a>
+                          <a className="underline text-pink-600">{nftURI}</a>
                         </Link>
                       </div>
                     </div>
@@ -282,18 +278,18 @@ const NftCreate: NextPage = () => {
                           type="number"
                           name="price"
                           id="price"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          className="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                  <div className="px-4 py-3 bg-white text-right sm:px-6">
                     <button
                       onClick={createNft}
                       type="button"
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     >
-                      List
+                      Sale
                     </button>
                   </div>
                 </div>
@@ -304,13 +300,9 @@ const NftCreate: NextPage = () => {
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <div className="px-4 sm:px-0">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
+                <h3 className="text-lg font-medium leading-6 text-white">
                   Create NFT Metadata
                 </h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  This information will be displayed publicly so be careful what
-                  you share.
-                </p>
               </div>
             </div>
             <div className="mt-5 md:mt-0 md:col-span-2">
@@ -331,8 +323,8 @@ const NftCreate: NextPage = () => {
                           type="text"
                           name="name"
                           id="name"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                          placeholder="My Nice NFT"
+                          className="focus:ring-pink-500 focus:border-pink-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
+                          placeholder=""
                         />
                       </div>
                     </div>
@@ -350,12 +342,12 @@ const NftCreate: NextPage = () => {
                           id="description"
                           name="description"
                           rows={3}
-                          className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                          placeholder="Some nft description..."
+                          className="shadow-sm focus:ring-pink-500 focus:border-pink-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                          placeholder=""
                         />
                       </div>
                       <p className="mt-2 text-sm text-gray-500">
-                        Brief description of NFT
+                        NFTの簡単な説明
                       </p>
                     </div>
                     {/* Has Image? */}
@@ -385,9 +377,9 @@ const NftCreate: NextPage = () => {
                             <div className="flex text-sm text-gray-600">
                               <label
                                 htmlFor="file-upload"
-                                className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                className="relative cursor-pointer bg-white rounded-md font-medium text-pink-600 hover:text-pink-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-pink-500"
                               >
-                                <span>Upload a file</span>
+                                <span>アップロード</span>
                                 <input
                                   id="file-upload"
                                   name="file-upload"
@@ -396,11 +388,8 @@ const NftCreate: NextPage = () => {
                                   onChange={handleImage}
                                 />
                               </label>
-                              <p className="pl-1">or drag and drop</p>
+                              <p className="pl-1">or ドラッグ&ドロップ</p>
                             </div>
-                            <p className="text-xs text-gray-500">
-                              PNG, JPG, GIF up to 10MB
-                            </p>
                           </div>
                         </div>
                       </div>
@@ -423,22 +412,22 @@ const NftCreate: NextPage = () => {
                             type="text"
                             name={attribute.trait_type}
                             id={attribute.trait_type}
-                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            className="mt-1 focus:ring-pink-500 focus:border-pink-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                           />
                         </div>
                       ))}
                     </div>
                     <p className="text-sm !mt-2 text-gray-500">
-                      Choose value from 0 to 100
+                      0 ~ 100 で選択
                     </p>
                   </div>
-                  <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                  <div className="px-4 py-3 bg-white text-right sm:px-6">
                     <button
                       onClick={uploadMetaData}
                       type="button"
-                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
                     >
-                      List
+                      Sale
                     </button>
                   </div>
                 </div>
