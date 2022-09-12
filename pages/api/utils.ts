@@ -8,7 +8,6 @@ import contract from '../../public/contracts/NftMarket.json';
 const NETWORKS = {
   '5777': 'Ganache',
   '3': 'Ropsten',
-  '4': 'Rinkeby',
 };
 
 type NETWORK = typeof NETWORKS;
