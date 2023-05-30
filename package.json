@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "genContractType": "abi-types-generator './public/contracts/NftMarket.json' --output='./types' --name=nftMarketContract --provider=ethers_v5"
+    "genContractType": "abi-types-generator './public/contracts/NftMarket.json' --output='./types' --name=nftMarketContract --provider=ethers_v5",
+    "truffle:compile": "truffle compile && npx typechain --target=ethers-v5 'public/contracts/*.json'",
+    "truffle:migrate:dev": "NODE_ENV=development truffle migrate --network goerli"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
